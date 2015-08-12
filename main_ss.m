@@ -127,7 +127,7 @@ else
     x = fmincon(@(x) 0, alpha_in', [H; -H], [bound_in_max'; -bound_in_min']);
     alpha_in = x';
     node_xyz_in = cal_node_xyz(node_xyz, alpha_in, H, offset_vector_in, node_num);
-    obj_save('E:\Project\zju_code\triangleMesh\3spheres_stand_autosave_v2_inivalue.obj',node_num,face_num,0,node_xyz_in,face_node,[],[]);
+    % obj_save('E:\Project\zju_code\triangleMesh\3spheres_stand_autosave_v2_inivalue.obj',node_num,face_num,0,node_xyz_in,face_node,[],[]);
 
     % suppose: do not change the outer surface
     r = 15; %calculate later!
@@ -135,16 +135,19 @@ else
     options = optimoptions('fmincon'...
         , 'Algorithm','interior-point'...% choose a algorithm:'interior-point','trust-region-reflective','sqp','active-set'
         , 'MaxIter', 3000 ...
-        , 'MaxFunEvals', 2000 ...
+        , 'MaxFunEvals', 200 ...
         , 'Display', 'iter-detailed' ...% 'off','iter','iter-detailed','notify','notify-detailed','final','final-detailed'
         , 'FinDiffType', 'central' ...% 'forward','central'
         , 'FunValCheck', 'on' ...% 'off','on'
         , 'TolCon', 1e-06 ...
         , 'TolX', 1e-10 ...% default:1e-10;
         );
-    x = fmincon(@(x) FUN_ss(x, H, node_xyz, face_in, face_out, offset_vector_in, node_num, face_num), ...
+
+    integral = getIntegral(node_xyz, face_out, face_num);
+
+    x = fmincon(@(x) FUN_ss(x, H, node_xyz, face_in, offset_vector_in, node_num, face_num, integral), ...
         alpha_in', [H; -H], [bound_in_max'; -bound_in_min'], [], [], [], [], ...
-        @(x) NONLCON_ss(x, H, node_xyz, face_in, face_out, offset_vector_in, node_num, face_num, r, epsilon), ...
+        @(x) NONLCON_ss(x, H, node_xyz, face_in, offset_vector_in, node_num, face_num, r, epsilon, integral), ...
         options);
     
     alpha_in = x';
@@ -156,7 +159,7 @@ else
     fprintf(1, '----------------------------\n\n');
     pause
     
-    obj_save('E:\Project\zju_code\triangleMesh\3spheres_stand_autosave_v2_result.obj',node_num,face_num,0,node_xyz_in,face_node,[],[]);
+    % obj_save('E:\Project\zju_code\triangleMesh\3spheres_stand_autosave_v2_result.obj',node_num,face_num,0,node_xyz_in,face_node,[],[]);
     
     face_in_tem = face_in + node_num;
     [mass, cm, inertia] = mass_properties([node_xyz, node_xyz_in], [face_out, face_in_tem], face_num * 2);
