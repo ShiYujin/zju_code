@@ -9,7 +9,11 @@ function integral = getIntegral(node_xyz, face_node, face_num)
         % get edges and cross product of edges
         e1 = node2 - node1;
         e2 = node3 - node1;
-        d = cross(e1, e2);
+        % d = cross(e1, e2);
+        d = zeros(1,3);
+        d(1) = e1(2) * e2(3) - e1(3) * e2(2);
+        d(2) = e1(3) * e2(1) - e1(1) * e2(3);
+        d(3) = e1(1) * e2(2) - e1(2) * e2(1);
         % compute integral terms
         [fx, gx] = subExpressions([node1(1),node2(1),node3(1)]);
         [fy, gy] = subExpressions([node1(2),node2(2),node3(2)]);
@@ -47,13 +51,19 @@ end
 
 function [f, g] = subExpressions(w)
     f = zeros(1, 3);
-    % g = zeros(1, 3);
-    f(1) = sum(w);
-    f(2) = f(1) * w(1) + ...
-        w(2) * w(2) + w(3) * w(3) + w(2) * w(3);
-    f(3) = w(1) * f(2) + ...
-        power(w(2),3) + w(2) * power(w(3),2) + ...
-        power(w(3),3) + w(3) * power(w(2),2);
+    
+    temp0 = w(1) + w(2);
+    f(1) = temp0 + w(3);
+    temp1 = w(1) * w(1);
+    temp2 = temp1 + w(2) * temp0;
+    f(2) = temp2 + w(3) * f(1);
+    f(3) = w(1) * temp1 + w(2) * temp2 + w(3) * f(2);
+%     f(1) = sum(w);
+%     f(2) = f(1) * w(1) + ...
+%         w(2) * w(2) + w(3) * w(3) + w(2) * w(3);
+%     f(3) = w(1) * f(2) + ...
+%         power(w(2),3) + w(2) * power(w(3),2) + ...
+%         power(w(3),3) + w(3) * power(w(2),2);
     g = f(2) + w .* (w + f(1));
 %     g(1) = f(2) + w(1) * (f(1) + w(1));
 %     g(2) = f(2) + w(2) * (f(1) + w(2));
