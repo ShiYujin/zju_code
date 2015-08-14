@@ -70,18 +70,18 @@ void mexFunction(int nlhs, mxArray * plhs[], int nrhs, const mxArray * prhs[])
 
     for(i = 0; i < face_num; i++)
     {
-        tem = faces[3 * i];
-        n1x = vertices[tem * 3 - 3];
-        n1y = vertices[tem * 3 - 2];
-        n1z = vertices[tem * 3 - 1];
-        tem = faces[3 * i + 1];
-        n2x = vertices[tem * 3 - 3];
-        n2y = vertices[tem * 3 - 2];
-        n2z = vertices[tem * 3 - 1];
-        tem = faces[3 * i + 2];
-        n3x = vertices[tem * 3 - 3];
-        n3y = vertices[tem * 3 - 2];
-        n3z = vertices[tem * 3 - 1];
+        tem = faces[3 * i] * 3;
+        n1x = vertices[tem - 3];
+        n1y = vertices[tem - 2];
+        n1z = vertices[tem - 1];
+        tem = faces[3 * i + 1] * 3;
+        n2x = vertices[tem - 3];
+        n2y = vertices[tem - 2];
+        n2z = vertices[tem - 1];
+        tem = faces[3 * i + 2] * 3;
+        n3x = vertices[tem - 3];
+        n3y = vertices[tem - 2];
+        n3z = vertices[tem - 1];
 
         e1x = n2x - n1x;
         e1y = n2y - n1y;
