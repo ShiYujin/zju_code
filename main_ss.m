@@ -133,9 +133,9 @@ else
     r = 15; %calculate later!
     epsilon = 1;
     options = optimoptions('fmincon'...
-        , 'Algorithm','interior-point'...% choose a algorithm:'interior-point','trust-region-reflective','sqp','active-set'
+        , 'Algorithm','active-set'...% choose a algorithm:'interior-point','trust-region-reflective','sqp','active-set'
         , 'MaxIter', 3000 ...
-        , 'MaxFunEvals', 1000 ...
+        , 'MaxFunEvals', 2000 ...
         , 'Display', 'iter-detailed' ...% 'off','iter','iter-detailed','notify','notify-detailed','final','final-detailed'
         , 'FinDiffType', 'central' ...% 'forward','central'
         , 'FunValCheck', 'on' ...% 'off','on'
@@ -143,7 +143,7 @@ else
         , 'TolX', 1e-10 ...% default:1e-10;
         );
 
-    integral = getIntegral(node_xyz, face_out, face_num);
+    integral = getIntegral_c(node_xyz, face_out, face_num);
 
     x = fmincon(@(x) FUN_ss(x, H, node_xyz, face_in, offset_vector_in, node_num, face_num, integral), ...
         alpha_in', [H; -H], [bound_in_max'; -bound_in_min'], [], [], [], [], ...

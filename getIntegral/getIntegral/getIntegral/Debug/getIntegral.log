@@ -1,0 +1,27 @@
+﻿生成启动时间为 2015/8/14 11:12:35。
+     1>项目“E:\Project\zju_code\getIntegral\getIntegral\getIntegral\getIntegral.vcxproj”在节点 2 上(Build 个目标)。
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D _USRDLL /D _WINDLL /D _UNICODE /D UNICODE /D _AFXDLL /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yc"stdafx.h" /Fp"Debug\getIntegral.pch" /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt stdafx.cpp
+         stdafx.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D _USRDLL /D _WINDLL /D _UNICODE /D UNICODE /D _AFXDLL /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\getIntegral.pch" /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt getIntegral.cpp getIntegral_c.cpp
+         getIntegral_c.cpp
+         getIntegral.cpp
+         正在生成代码...
+       ResourceCompile:
+         C:\Program Files (x86)\Windows Kits\8.0\bin\x86\rc.exe /D _DEBUG /D _UNICODE /D UNICODE /D _AFXDLL /l"0x0804" /IDebug\ /nologo /fo"Debug\getIntegral.res" getIntegral.rc 
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\Project\zju_code\getIntegral\getIntegral\Debug\getIntegral.dll" /INCREMENTAL /NOLOGO libmx.lib libeng.lib libmat.lib libmex.lib /DEF:".\getIntegral.def" /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /manifestinput:"C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\Include\Manifest\dpiaware.manifest" /DEBUG /PDB:"E:\Project\zju_code\getIntegral\getIntegral\Debug\getIntegral.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\Project\zju_code\getIntegral\getIntegral\Debug\getIntegral.lib" /MACHINE:X86 /DLL Debug\getIntegral.res
+         Debug\getIntegral.obj
+         Debug\getIntegral_c.obj
+         Debug\stdafx.obj
+            正在创建库 E:\Project\zju_code\getIntegral\getIntegral\Debug\getIntegral.lib 和对象 E:\Project\zju_code\getIntegral\getIntegral\Debug\getIntegral.exp
+     1>getIntegral_c.obj : error LNK2019: 无法解析的外部符号 _mxGetPr，该符号在函数 _mexFunction 中被引用
+     1>getIntegral_c.obj : error LNK2019: 无法解析的外部符号 _mxGetN，该符号在函数 _mexFunction 中被引用
+     1>getIntegral_c.obj : error LNK2019: 无法解析的外部符号 _mxCreateDoubleMatrix_730，该符号在函数 _mexFunction 中被引用
+     1>getIntegral_c.obj : error LNK2019: 无法解析的外部符号 _mexPrintf，该符号在函数 _mexFunction 中被引用
+     1>E:\Project\zju_code\getIntegral\getIntegral\Debug\getIntegral.dll : fatal error LNK1120: 4 个无法解析的外部命令
+     1>已完成生成项目“E:\Project\zju_code\getIntegral\getIntegral\getIntegral\getIntegral.vcxproj”(Build 个目标)的操作 - 失败。
+
+生成失败。
+
+已用时间 00:00:04.57

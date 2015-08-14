@@ -9,11 +9,8 @@
 
 using namespace std;
 
-bool loadOBJ(
-	const char * path, 
-	vector<vector<float>> & out_vertices, 
-	vector<vector<int>> & out_faces
-){
+bool loadOBJ(const char * path, vector<vector<float>> & out_vertices, vector<vector<int>> & out_faces)
+{
 	printf("Loading OBJ file %s...\n", path);
 
 	FILE * file = fopen(path, "r");
