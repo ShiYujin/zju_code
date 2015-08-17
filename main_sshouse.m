@@ -80,7 +80,7 @@ else
     tic;
     offset_vector_in = offset_vector;
     offset_vector_out = - offset_vector;
-    offset_in_normal = 0.5;   % should be changed according to the size of object!
+    offset_in_normal = 0.1;   % should be changed according to the size of object!
     bound_in_max = offset_bound;
     bound_in_min = cal_lower_bound(offset_in_normal, node_num, normal_vector, offset_vector_in, bound_in_max);
     bound_out_min = zeros(1,node_num);  % default to be 0, can be changed according to the size of object!
@@ -162,5 +162,9 @@ else
     face_in_tem = face_in + node_num;
     [mass, cm, inertia] = mass_properties([node_xyz, node_xyz_in], [face_out, face_in_tem], face_num * 2);
     cm
+    
+    %
+    % face_in_tem = face_in + node_num;
+    % obj_save('E:\Project\zju_code\triangleMesh\make_it_stand\horse_stand_autosave_total.obj',node_num*2,face_num*2,0,[node_xyz,node_xyz_in],[face_node,face_in],[],[]);
 end
 
