@@ -55,7 +55,7 @@ else
 % edge,      int,   2*edge_num, the index of vertex that each edge include
 % map,       int,   2*map_num,  map surface vertex -> skeleton vertex
     [skel_node, edge, skel_face, map, skel_num, edge_num, skel_face_num, map_num] = ...
-        map_reader('E:\Project\zju_code\triangleMesh\make_it_stand\horse_stand_copy1.obj');
+        map_reader('E:\Project\zju_code\triangleMesh\make_it_stand\horse_stand_copy4.obj');
     fprintf(1, '\nnCalculate skeleton finished\n');
     toc;
     fprintf(1, '----------------------------\n\n');
@@ -80,7 +80,7 @@ else
     tic;
     offset_vector_in = offset_vector;
     offset_vector_out = - offset_vector;
-    offset_in_normal = 0.01;   % should be changed according to the size of object!
+    offset_in_normal = 0.5;   % should be changed according to the size of object!
     bound_in_max = offset_bound;
     bound_in_min = cal_lower_bound(offset_in_normal, node_num, normal_vector, offset_vector_in, bound_in_max);
     bound_out_min = zeros(1,node_num);  % default to be 0, can be changed according to the size of object!
@@ -90,7 +90,7 @@ else
     wp = 0;
     
     % the number of H used, default to be node_num
-    k = 40;
+    k = 100;
     if(k <= node_num)
         H = V(:,1:k);
     else
@@ -127,11 +127,9 @@ else
     x = fmincon(@(x) 0, alpha_in', [H; -H], [bound_in_max'; -bound_in_min']);
     alpha_in = x';
     node_xyz_in = cal_node_xyz(node_xyz, alpha_in, H, offset_vector_in, node_num);
-    % obj_save('E:\Project\zju_code\triangleMesh\horse_stand_autosave_inivalue.obj',node_num,face_num,0,node_xyz_in,face_node,[],[]);
+    % obj_save('E:\Project\zju_code\triangleMesh\make_it_stand\horse_stand_autosave_inivalue.obj',node_num,face_num,0,node_xyz_in,face_node,[],[]);
 
     % suppose: do not change the outer surface
-    r = 15; %calculate later!
-    epsilon = 1;
     options = optimoptions('fmincon'...
         , 'Algorithm','active-set'...% choose a algorithm:'interior-point','trust-region-reflective','sqp','active-set'
         , 'MaxIter', 3000 ...
@@ -159,7 +157,7 @@ else
     fprintf(1, '----------------------------\n\n');
     pause
     
-    % obj_save('E:\Project\zju_code\triangleMesh\horse_stand_autosave_result.obj',node_num,face_num,0,node_xyz_in,face_node,[],[]);
+    % obj_save('E:\Project\zju_code\triangleMesh\make_it_stand\horse_stand_autosave_result.obj',node_num,face_num,0,node_xyz_in,face_node,[],[]);
     
     face_in_tem = face_in + node_num;
     [mass, cm, inertia] = mass_properties([node_xyz, node_xyz_in], [face_out, face_in_tem], face_num * 2);
