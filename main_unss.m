@@ -22,7 +22,7 @@ tic;
 fprintf(1, '\nRead file finished\n');
 toc;
 fprintf(1, '----------------------------\n\n');
-pause off;
+pause on;
 pause;
 %% for futher process, it mush be triangle mesh
 if ( max(face_order) ~= 3 || min(face_order) ~= 3)
@@ -80,7 +80,7 @@ else
     tic;
     offset_vector_in = offset_vector;
     offset_vector_out = - offset_vector;
-    offset_in_normal = 0.001;   % should be changed according to the size of object!
+    offset_in_normal = 0.01;   % should be changed according to the size of object!
     bound_in_max = offset_bound;
     bound_in_min = cal_lower_bound(offset_in_normal, node_num, normal_vector, offset_vector_in, bound_in_max);
     bound_out_min = zeros(1,node_num);  % default to be 0, can be changed according to the size of object!
@@ -127,15 +127,13 @@ else
     x = fmincon(@(x) 0, alpha_in', [H; -H], [bound_in_max'; -bound_in_min']);
     alpha_in = x';
     node_xyz_in = cal_node_xyz(node_xyz, alpha_in, H, offset_vector_in, node_num);
-    % obj_save('E:\Project\zju_code\triangleMesh\3spheres_stand_autosave_v2_inivalue.obj',node_num,face_num,0,node_xyz_in,face_node,[],[]);
+    % obj_save('E:\Project\zju_code\triangleMesh\spot_triangulated_autosave_inivalue.obj',node_num,face_num,0,node_xyz_in,face_node,[],[]);
 
     % suppose: do not change the outer surface
-    r = 15; %calculate later!
-    epsilon = 1;
     options = optimoptions('fmincon'...
         , 'Algorithm','active-set'...% choose a algorithm:'interior-point','trust-region-reflective','sqp','active-set'
         , 'MaxIter', 3000 ...
-        , 'MaxFunEvals', 2000 ...
+        , 'MaxFunEvals', 4000 ...
         , 'Display', 'iter-detailed' ...% 'off','iter','iter-detailed','notify','notify-detailed','final','final-detailed'
         , 'FinDiffType', 'central' ...% 'forward','central'
         , 'FunValCheck', 'on' ...% 'off','on'
@@ -145,9 +143,9 @@ else
 
     integral = getIntegral_c(node_xyz, face_out, face_num);
 
-    x = fmincon(@(x) FUN_ss(x, H, node_xyz, face_in, offset_vector_in, node_num, face_num, integral), ...
+    x = fmincon(@(x) FUN_unss(x, H, node_xyz, face_in, offset_vector_in, node_num, face_num, integral), ...
         alpha_in', [H; -H], [bound_in_max'; -bound_in_min'], [], [], [], [], ...
-        @(x) NONLCON_ss(x, H, node_xyz, face_in, offset_vector_in, node_num, face_num, r, epsilon, integral), ...
+        @myfun, ...
         options);
     
     alpha_in = x';
@@ -159,7 +157,7 @@ else
     fprintf(1, '----------------------------\n\n');
     pause
     
-    % obj_save('E:\Project\zju_code\triangleMesh\3spheres_stand_autosave_v2_result.obj',node_num,face_num,0,node_xyz_in,face_node,[],[]);
+    % obj_save('E:\Project\zju_code\triangleMesh\spot_triangulated_autosave_result.obj',node_num,face_num,0,node_xyz_in,face_node,[],[]);
     
     face_in_tem = face_in + node_num;
     [mass, cm, inertia] = mass_properties([node_xyz, node_xyz_in], [face_out, face_in_tem], face_num * 2);
