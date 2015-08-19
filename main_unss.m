@@ -1,5 +1,5 @@
 clear;
-% clc;
+clc;
 
 fprintf(1, 'unStatic Stability\n\n');
 

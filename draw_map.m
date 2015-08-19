@@ -48,35 +48,35 @@ xlabel ( '--X axis--' )
 ylabel ( '--Y axis--' )
 zlabel ( '--Z axis--' )
 %%
-% figure;
-% 
-% handle = patch ( 'Vertices', node_xyz', 'Faces', face_node' );
-% set ( handle, 'FaceColor', [0.5, 0.6, 0.8], 'EdgeColor', 'Black' );
-% 
-% axis equal; 
-% xlim;
-% ylim;
-% zlim;
-% grid on;
-% 
-% xlabel ( '--X axis--' )
-% ylabel ( '--Y axis--' )
-% zlabel ( '--Z axis--' )
-% %%
-% figure;
-% 
-% handle = patch ( 'Vertices', skel_node', 'Faces', skel_face' );
-% set ( handle, 'FaceColor', [0.5, 0.6, 0.8], 'EdgeColor', 'Black' );
-% 
-% axis equal; 
-% xlim;
-% ylim;
-% zlim;
-% grid on;
-% 
-% xlabel ( '--X axis--' )
-% ylabel ( '--Y axis--' )
-% zlabel ( '--Z axis--' )
+figure;
+
+handle = patch ( 'Vertices', node_xyz', 'Faces', face_node' );
+set ( handle, 'FaceColor', [0.5, 0.6, 0.8], 'EdgeColor', 'Black' );
+
+axis equal; 
+xlim;
+ylim;
+zlim;
+grid on;
+
+xlabel ( '--X axis--' )
+ylabel ( '--Y axis--' )
+zlabel ( '--Z axis--' )
+%%
+figure;
+
+handle = patch ( 'Vertices', skel_node', 'Faces', skel_face' );
+set ( handle, 'FaceColor', [0.5, 0.6, 0.8], 'EdgeColor', 'Black' );
+
+axis equal; 
+xlim;
+ylim;
+zlim;
+grid on;
+
+xlabel ( '--X axis--' )
+ylabel ( '--Y axis--' )
+zlabel ( '--Z axis--' )
 %%
 % a unit cube
 % face_num = 12;
