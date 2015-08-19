@@ -1,5 +1,5 @@
-% % clear;
-% clc;
+clear;
+clc;
 
 fprintf(1, 'Static Stability--TRex\n\n');
 
@@ -90,7 +90,7 @@ else
     wp = 0;
     
     % the number of H used, default to be node_num
-    k = 200;
+    k = 95;
     if(k < node_num)
         H = V(:,1:k);
     else
