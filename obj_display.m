@@ -70,7 +70,7 @@ function [ node_num, face_num, normal_num, node_xyz, face_order, face_node, norm
     end
   end
   
-  % return
+  return
 %
 %  Display the shape.
 %
