@@ -1,7 +1,4 @@
 function [C, Ceq] = NONLCON_rs(x, H, node_xyz, face_in, offset_vector_in, node_num, face_num, integral)
-    global nonlcontime;
-    start = tic;
-
 %     node_xyz_in = cal_node_xyz(node_xyz, x', H, offset_vector_in, node_num);
 %     face_in_tem = face_in + node_num;
 %     [mass, cm, inertia] = mass_properties([node_xyz, node_xyz_in], [face_out, face_in_tem], face_num * 2);
@@ -35,6 +32,4 @@ function [C, Ceq] = NONLCON_rs(x, H, node_xyz, face_in, offset_vector_in, node_n
     Ceq(3) = inertia(2,3);
     Ceq(4) = inertia(1,2);
     C = 0;%- cm(2);
-    
-    nonlcontime = nonlcontime + toc(start);
 end

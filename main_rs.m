@@ -87,7 +87,7 @@ else
     wp = 0;
     
     % the number of H used, default to be node_num
-    k = 40;
+    k = 60;
     if(k <= node_num)
         H = V(:,1:k);
     else
@@ -117,7 +117,6 @@ else
     fprintf(1, '----------------------------\n\n');
     pause
     %% Optimization
-    tic;
     % static stability
     % initial value
     x = fmincon(@(x) 0, alpha_in', [H; -H], [bound_in_max'; -bound_in_min']);
@@ -129,7 +128,7 @@ else
     options = optimoptions('fmincon'...
         , 'Algorithm','interior-point'...% choose a algorithm:'interior-point','trust-region-reflective','sqp','active-set'
         , 'MaxIter', 3000 ...
-        , 'MaxFunEvals', 6000 ...
+        , 'MaxFunEvals', 8000 ...
         , 'Display', 'iter-detailed' ...% 'off','iter','iter-detailed','notify','notify-detailed','final','final-detailed'
         , 'FinDiffType', 'central' ...% 'forward','central'
         , 'FunValCheck', 'on' ...% 'off','on'
@@ -137,32 +136,29 @@ else
         , 'TolX', 1e-10 ...% default:1e-10;
         );
     
-    global masstime;
-    global funtime;
-    global nonlcontime;
-    masstime = 0;
-    funtime = 0;
-    nonlcontime = 0;
-    
     integral = getIntegral_c(node_xyz, face_out, face_num);
     
+    tic;
     x = fmincon(@(x) FUN_rs(x, H, node_xyz, face_in, offset_vector_in, node_num, face_num, integral), ...
         alpha_in', [H; -H], [bound_in_max'; -bound_in_min'], [], [], [], [], ...
         @(x) NONLCON_rs(x, H, node_xyz, face_in, offset_vector_in, node_num, face_num, integral), ...
         options);
     
-    alpha_in = x';
-    
-    node_xyz_in = cal_node_xyz(node_xyz, alpha_in, H, offset_vector_in, node_num);
-
     fprintf(1, '\nOptimization finished!\n');
     toc;
     fprintf(1, '----------------------------\n\n');
     pause
      
+    alpha_in = x';
+    
+    node_xyz_in = cal_node_xyz(node_xyz, alpha_in, H, offset_vector_in, node_num);
+
     % obj_save('E:\Project\zju_code\triangleMesh\top_ellipsoid_v2_autosave_result.obj',node_num,face_num,0,node_xyz_in,face_node,[],[]);
     
     face_in_tem = face_in + node_num;
     [mass, cm, inertia] = mass_properties([node_xyz, node_xyz_in], [face_out, face_in_tem], face_num * 2);
+    mass
+    cm
+    inertia
 end
 

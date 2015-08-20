@@ -1,7 +1,4 @@
 function [mass, cm, inertia] = mass_properties(node_xyz, face_node, face_num)
-    global masstime;
-    start = tic;
-    
     % mass = 0;
     % cm = zeros(1,3);
     inertia = zeros(3,3);
@@ -73,8 +70,6 @@ function [mass, cm, inertia] = mass_properties(node_xyz, face_node, face_num)
     inertia(2,1) = inertia(1,2);
     inertia(3,2) = inertia(2,3);
     inertia(3,1) = inertia(1,3);
-    
-    masstime = masstime + toc(start);
 end
 
 function [f, g] = subExpressions(w)

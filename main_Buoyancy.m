@@ -1,4 +1,4 @@
-clear;
+% clear;
 % clc;
 
 fprintf(1, 'Specific Volume and Buoyancy\n\n');
@@ -22,7 +22,7 @@ tic;
 fprintf(1, '\nRead file finished\n');
 toc;
 fprintf(1, '----------------------------\n\n');
-pause on;
+pause off;
 pause;
 %% for futher process, it mush be triangle mesh
 if ( max(face_order) ~= 3 || min(face_order) ~= 3)
@@ -90,12 +90,13 @@ else
     wp = 0;
     
     % the number of H used, default to be node_num
-    k = 40;
+    k = 60;
     if(k <= node_num)
         H = V(:,1:k);
     else
         H = V;
     end
+    rho = 0.5; % rho = rho(water) / rho(object);
     
     % variable to be optimizated, 
     % bound_min < H * alpha < bound_max
@@ -120,7 +121,6 @@ else
     fprintf(1, '----------------------------\n\n');
     pause
     %% Optimization
-    tic;
     % static stability
     % initial value
     % x = fmincon(@(x) 0, alpha_in', [H; -H], [bound_in_max'; -bound_in_min'],[],[],[],[],@myfun,options);
@@ -130,7 +130,6 @@ else
     % obj_save('E:\Project\zju_code\triangleMesh\spot_triangulated_autosave_buoyancy_inivalue.obj',node_num,face_num,0,node_xyz_in,face_node,[],[]);
 
     % suppose: do not change the outer surface
-    rho = 0.9; % rho = rho(water) / rho(object);
     
     options = optimoptions('fmincon'...
         , 'Algorithm','active-set'...% choose a algorithm:'interior-point','trust-region-reflective','sqp','active-set'
@@ -146,24 +145,27 @@ else
     integral = getIntegral_c(node_xyz, face_out, face_num);
     rh0_mass0 = (rho - 1) * mass0;
     
+    tic;
     x = fmincon(@(x) FUN_Buoyancy(x, H, node_xyz, face_in, offset_vector_in, node_num, face_num, rh0_mass0), ...
         alpha_in', [H; -H], [bound_in_max'; -bound_in_min'], [], [], [], [], ...
         @(x) NONLCON_Buoyancy(x, H, node_xyz, face_in, offset_vector_in, node_num, face_num, integral, cm0), ...
         options);
     
-    alpha_in = x';
-    
-    node_xyz_in = cal_node_xyz(node_xyz, alpha_in, H, offset_vector_in, node_num);
-
     fprintf(1, '\nOptimization finished!\n');
     toc;
     fprintf(1, '----------------------------\n\n');
     pause
     
+    alpha_in = x';
+    
+    node_xyz_in = cal_node_xyz(node_xyz, alpha_in, H, offset_vector_in, node_num);
+
     % obj_save('E:\Project\zju_code\triangleMesh\spot_triangulated_autosave_buoyancy_result.obj',node_num,face_num,0,node_xyz_in,face_node,[],[]);
     
     face_in_tem = face_in + node_num;
-    [mass, cm, inertia] = mass_properties([node_xyz, node_xyz_in], [face_out, face_in_tem], face_num * 2);
-    rh0_mass0 - mass
+    [mass, cm, ~] = mass_properties([node_xyz, node_xyz_in], [face_out, face_in_tem], face_num * 2);
+    cm
+    [mass_in, cm_in, ~] = mass_properties(node_xyz_in, face_in, face_num);
+    cm_in
 end
 

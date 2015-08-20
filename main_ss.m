@@ -1,4 +1,4 @@
-clear;
+% clear;
 % clc;
 
 fprintf(1, 'Static Stability\n\n');
@@ -90,7 +90,7 @@ else
     wp = 0;
     
     % the number of H used, default to be node_num
-    k = 40;
+    k = 10;
     if(k <= node_num)
         H = V(:,1:k);
     else
@@ -120,7 +120,6 @@ else
     fprintf(1, '----------------------------\n\n');
     pause
     %% Optimization
-    tic;
     % static stability
     % initial value
     % x = fmincon(@(x) 0, alpha_in', [H; -H], [bound_in_max'; -bound_in_min'],[],[],[],[],@myfun,options);
@@ -145,24 +144,26 @@ else
 
     integral = getIntegral_c(node_xyz, face_out, face_num);
 
+    tic;
     x = fmincon(@(x) FUN_ss(x, H, node_xyz, face_in, offset_vector_in, node_num, face_num, integral), ...
         alpha_in', [H; -H], [bound_in_max'; -bound_in_min'], [], [], [], [], ...
         @(x) NONLCON_ss(x, H, node_xyz, face_in, offset_vector_in, node_num, face_num, r, epsilon, integral), ...
         options);
     
-    alpha_in = x';
-    
-    node_xyz_in = cal_node_xyz(node_xyz, alpha_in, H, offset_vector_in, node_num);
-
     fprintf(1, '\nOptimization finished!\n');
     toc;
     fprintf(1, '----------------------------\n\n');
     pause
     
+    alpha_in = x';
+    
+    node_xyz_in = cal_node_xyz(node_xyz, alpha_in, H, offset_vector_in, node_num);
+
     % obj_save('E:\Project\zju_code\triangleMesh\3spheres_stand_autosave_v2_result.obj',node_num,face_num,0,node_xyz_in,face_node,[],[]);
     
     face_in_tem = face_in + node_num;
     [mass, cm, inertia] = mass_properties([node_xyz, node_xyz_in], [face_out, face_in_tem], face_num * 2);
+    mass
     cm
 end
 
