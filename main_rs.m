@@ -77,7 +77,7 @@ else
     tic;
     offset_vector_in = offset_vector;
     offset_vector_out = - offset_vector;
-    offset_in_normal = 0.3;   % should be changed according to the size of object!
+    offset_in_normal = 1;   % should be changed according to the size of object!
     bound_in_max = offset_bound;
     bound_in_min = cal_lower_bound(offset_in_normal, node_num, normal_vector, offset_vector_in, bound_in_max);
     bound_out_min = zeros(1,node_num);  % default to be 0, can be changed according to the size of object!
@@ -87,7 +87,7 @@ else
     wp = 0;
     
     % the number of H used, default to be node_num
-    k = 60;
+    k = 20;
     if(k <= node_num)
         H = V(:,1:k);
     else
@@ -126,7 +126,7 @@ else
 
     % suppose: do not change the outer surface
     options = optimoptions('fmincon'...
-        , 'Algorithm','interior-point'...% choose a algorithm:'interior-point','trust-region-reflective','sqp','active-set'
+        , 'Algorithm','active-set'...% choose a algorithm:'interior-point','trust-region-reflective','sqp','active-set'
         , 'MaxIter', 3000 ...
         , 'MaxFunEvals', 8000 ...
         , 'Display', 'iter-detailed' ...% 'off','iter','iter-detailed','notify','notify-detailed','final','final-detailed'
