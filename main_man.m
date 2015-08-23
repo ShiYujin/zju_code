@@ -15,10 +15,7 @@ tic;
 % vertex_normal,	int,    order_max*face_num,     the index of normal vector of vertex of each face
 [ node_num, face_num, normal_num, ...
     node_xyz, face_order, face_node, normal_vector, vertex_normal] ...
-    = obj_display('E:\Project\zju_code\triangleMesh\man.obj');
-    %spot_triangulated.obj
-    %banana_obj.obj
-    %Etop_ellipsoid.obj
+    = obj_display('E:\Project\zju_code\triangleMesh\man_r20.obj');
 fprintf(1, '\nRead file finished\n');
 toc;
 fprintf(1, '----------------------------\n\n');
@@ -55,7 +52,7 @@ else
 % edge,      int,   2*edge_num, the index of vertex that each edge include
 % map,       int,   2*map_num,  map surface vertex -> skeleton vertex
     [skel_node, edge, skel_face, map, skel_num, edge_num, skel_face_num, map_num] = ...
-        map_reader('E:\Project\zju_code\triangleMesh\Man_copy5.obj');
+        map_reader('E:\Project\zju_code\triangleMesh\man_r20_copy5.obj');
     fprintf(1, '\nnCalculate skeleton finished\n');
     toc;
     fprintf(1, '----------------------------\n\n');
@@ -97,7 +94,7 @@ else
         H = V;
     end
     rho = 1/1.2; % rho = rho(water) / rho(object);
-    h = 0.3;
+    h = 0.1;
     
     % variable to be optimizated, 
     % bound_min < H * alpha < bound_max
@@ -153,7 +150,7 @@ else
     tic;
     x = fmincon(@(x) FUN_man(x, H, node_xyz, face_in, offset_vector_in, node_num, face_num, rh0_bmass, mass0), ...
         alpha_in', [H; -H], [bound_in_max'; -bound_in_min'], [], [], [], [], ...
-        @(x) NONLCON_man(x, H, node_xyz, face_in, offset_vector_in, node_num, face_num, integral, cm0), ...
+        @(x) NONLCON_man(x, H, node_xyz, face_in, offset_vector_in, node_num, face_num, integral, bcm), ...
         options);
     
     fprintf(1, '\nOptimization finished!\n');

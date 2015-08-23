@@ -90,7 +90,7 @@ else
     wp = 0;
     
     % the number of H used, default to be node_num
-    k = 100;
+    k = 60;
     if(k <= node_num)
         H = V(:,1:k);
     else
